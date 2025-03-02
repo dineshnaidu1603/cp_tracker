@@ -133,7 +133,9 @@ LOGOUT_REDIRECT_URL = 'login'
 GROQ_API_KEY = "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"
 
 if not DEBUG:
+    import dj_database_url
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    DATABASES['default'] = dj_database_url.config(default=os.environ.get('DATABASE_URL'))
     SECURE_SSL_REDIRECT = True
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
