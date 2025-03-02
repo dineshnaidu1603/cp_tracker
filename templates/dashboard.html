@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    
+    
+</head>
+<body>
+
+    <header>
+        <div class="logo">vignan cp portal</div>
+        <div class="user-menu">
+            <span class="username" id="userDropdown">{{ user.username }} ▼</span>
+
+            <div class="dropdown" id="dropdownMenu">
+                <ul>
+                    <li><a href="#">My Profile</a></li>
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#">Contest Leaderboard</a></li>
+                    <li><a href="#">Leaderboard</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        
+    </header>
+    <main>
+        <div class="profile-section">
+            <div class="profile-pic"></div>
+            <div class="profile-info">
+                <h2>Welcome, {{ user.username }}</h2>
+                <p>Year: {{ user.year }}</p>
+                <p>Section: {{ user.section }}</p>
+
+            </div>
+        </div>
+
+    </main>
+
+    <div class="text">
+    <h2>LeetCode Profile: {{ request.user.leetcode }}</h2>
+            <p>
+        <a href="https://leetcode.com/u/{{ request.user.leetcode }}" target="_blank">leetcode page</a>
+    </p>
+        </div>
+
+    <img src="data:image/png;base64,{{ total_chart_url }}" alt="Total Accepted">
+        <div class="text">
+    <h3>Accepted Submissions per Difficulty</h3>
+            </div>
+    <img src="data:image/png;base64,{{ leetcode_chart }}" alt="LeetCode Chart">
+ <div class="text">
+    <h2>CodeChef Profile: {{ request.user.codechef }}</h2>
+
+    <p><strong>Rating:</strong> {{ user_rating }}</p>
+    <p><strong>Stars:</strong> {{ user_stars }}</p>
+     <p>
+        <a href="https://www.codechef.com/users/{{ request.user.codechef }}" target="_blank">leetcode page</a>
+    </p>
+      </div>
+ <div class="text">
+    <h3>Rating Over Time</h3>
+      </div>
+    <img src="data:image/png;base64,{{ rating_chart }}" alt="Rating Chart">
+ <div class="text">
+    <h3>Contests Participated Per Year</h3>
+ </div>
+    <img src="data:image/png;base64,{{ contest_chart }}" alt="Contest Chart">
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let userDropdown = document.getElementById("userDropdown");
+            let dropdownMenu = document.getElementById("dropdownMenu");
+    
+            userDropdown.addEventListener("click", function (event) {
+                event.stopPropagation(); // Prevents immediate closing
+                dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+            });
+    
+            document.addEventListener("click", function () {
+                dropdownMenu.style.display = "none"; // Closes dropdown when clicking outside
+            });
+    
+            dropdownMenu.addEventListener("click", function (event) {
+                event.stopPropagation(); // Keeps dropdown open when clicking inside
+            });
+        });
+    </script>
+
+</body>
+</html>

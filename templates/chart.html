@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with AI</title>
+</head>
+<body>
+    <h1>AI Chatbot</h1>
+
+    <!-- Add a form to send user messages -->
+    <form id="chat-form">
+        {% csrf_token %}  <!-- This generates a CSRF token automatically -->
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button type="button" onclick="sendMessage()">Send</button>
+    </form>
+
+    <p id="bot-response"></p>
+
+    <script>
+        function getCSRFToken() {
+            return document.querySelector('[name=csrfmiddlewaretoken]').value; // Fetch CSRF token from hidden input field
+        }
+
+        function sendMessage() {
+            let userMessage = document.getElementById("user-input").value;
+            let csrfToken = getCSRFToken();  // Get CSRF token
+
+            fetch("", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-CSRFToken": csrfToken
+                },
+                body: "message=" + encodeURIComponent(userMessage)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("bot-response").innerText = "Bot: " + data.response;
+            });
+        }
+    </script>
+
+</body>
+</html>

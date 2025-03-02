@@ -1,0 +1,135 @@
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background: linear-gradient(to right, #2929ce, #f611d7);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Centering form */
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Smooth fade-in animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Container for the registration form */
+.registration-container {
+    background-color: #ffffff;
+    padding: 1.5rem; /* Reduced padding */
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 350px; /* Reduced width */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect */
+.registration-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Form heading */
+.registration-container h1 {
+    text-align: center;
+    margin-bottom: 1rem; /* Reduced space */
+    color: #222;
+    font-weight: 600;
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 1rem; /* Reduced margin */
+    position: relative;
+}
+
+/* Labels */
+.form-group label {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: #444;
+    font-weight: 500;
+}
+
+/* Input fields */
+.form-group input {
+    width: 100%;
+    padding: 0.6rem; /* Reduced padding */
+    border: 2px solid #d70606;
+    border-radius: 6px;
+    font-size: 0.9rem; /* Slightly smaller text */
+    color: #333;
+    background: #f8f9fa;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Input focus effect */
+.form-group input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+}
+
+/* Placeholder effect */
+.form-group input::placeholder {
+    color: #aaa;
+}
+
+.form-group input:focus::placeholder {
+    color: transparent;
+}
+
+/* Submit button styling */
+.submit-button {
+    width: 100%;
+    padding: 0.7rem; /* Reduced padding */
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover effect */
+.submit-button:hover {
+    background: linear-gradient(135deg, #0056b3, #003d80);
+    transform: scale(1.02);
+}
+
+/* Button active effect */
+.submit-button:active {
+    transform: scale(0.98);
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .registration-container {
+        padding: 1.2rem;
+        max-width: 300px; /* Further reduce width for smaller screens */
+    }
+
+    .submit-button {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+    }
+}
+select {
+    width: 100%;
+    text-align: center;
+    font-size: large;
+    appearance: none;
+    background: rgb(244, 244, 246);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(227, 13, 13, 0.4);
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
