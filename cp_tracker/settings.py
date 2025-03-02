@@ -25,9 +25,10 @@ SECRET_KEY = 'django-insecure-&c1+)d6appx#h3w1$c^+w*v-#-ew4gj9=e!l!ou8!olqctlipb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['cp-tracker-398710d8d436.herokuapp.com', 'localhost', 'dineshnarni.tech']
+ALLOWED_HOSTS = ['cp-tracker-398710d8d436.herokuapp.com', 'localhost', 'dineshnarni.tech', '0.0.0.0:8000']
 
 CSRF_TRUSTED_ORIGINS = [
+    'http://0.0.0.0:8000',
     'https://cp-tracker-398710d8d436.herokuapp.com',
     'https://dineshnarni.tech',
     'http://localhost:8000', ]
