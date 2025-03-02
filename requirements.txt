@@ -27,6 +27,7 @@ numpy==2.2.3
 orjson==3.10.15
 packaging==24.2
 pillow==11.1.0
+psycopg2-binary==2.9.10
 pydantic==2.10.6
 pydantic_core==2.27.2
 pyparsing==3.2.1
