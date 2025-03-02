@@ -16,7 +16,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -26,8 +25,12 @@ SECRET_KEY = 'django-insecure-&c1+)d6appx#h3w1$c^+w*v-#-ew4gj9=e!l!ou8!olqctlipb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['cp_tracker.herokuapp.com','localhost',]
+ALLOWED_HOSTS = ['cp-tracker-398710d8d436.herokuapp.com', 'localhost', 'dineshnarni.tech']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://cp-tracker-398710d8d436.herokuapp.com',
+    'https://dineshnarni.tech',
+    'http://localhost:8000', ]
 
 # Application definition
 
@@ -72,7 +75,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cp_tracker.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -102,7 +104,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -113,7 +114,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -131,5 +131,8 @@ LOGOUT_REDIRECT_URL = 'login'
 # settings.py
 GROQ_API_KEY = "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"
 
-
-
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
