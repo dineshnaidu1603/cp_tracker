@@ -1,26 +1,23 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-import requests
-import io
 import base64
+import io
+
 import matplotlib
+import requests
+from django.contrib.auth import login, logout
+from django.shortcuts import redirect
+
 matplotlib.use('Agg')  # Use non-interactive backend
 import matplotlib.pyplot as plt
-from django.contrib import messages
-from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from .models import CustomUser
 from .forms import EmailAuthenticationForm  # Use custom login form
 import datetime
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from langchain_groq import ChatGroq
 
 from django.shortcuts import render
 from django.http import JsonResponse
 from langchain_groq import ChatGroq
-from django.views.decorators.csrf import csrf_exempt
 
 llm = ChatGroq(
     temperature=0,
@@ -93,7 +90,7 @@ def logout_view(request):
 @login_required
 def dashboard(request):
     username = request.user.leetcode  # Get LeetCode username from user model
-    handle = request.user.codechef    # Get CodeChef username
+    handle = request.user.codechef  # Get CodeChef username
 
     # ------------------ LeetCode Data Fetching ------------------
     leetcode_url = "https://leetcode.com/graphql"
@@ -136,7 +133,8 @@ def dashboard(request):
 
     for bar in bars:
         yval = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width() / 2, yval, yval, ha='center', va='bottom', fontsize=12, fontweight='bold')
+        plt.text(bar.get_x() + bar.get_width() / 2, yval, yval, ha='center', va='bottom', fontsize=12,
+                 fontweight='bold')
 
     plt.xlabel("Difficulty Level")
     plt.ylabel("Accepted Submissions")
@@ -151,7 +149,8 @@ def dashboard(request):
 
     # ---- LeetCode: Total Submissions Display ----
     plt.figure(figsize=(9, 2))
-    plt.text(0.5, 0.5, f"Total Accepted: {ac_counts[0]}", ha='center', va='center', fontsize=20, fontweight='bold', color='Red')
+    plt.text(0.5, 0.5, f"Total Accepted: {ac_counts[0]}", ha='center', va='center', fontsize=20, fontweight='bold',
+             color='Red')
     plt.axis('off')
 
     buf = io.BytesIO()
@@ -236,13 +235,3 @@ def dashboard(request):
         "rating_chart": rating_chart,
         "contest_chart": contest_chart,
     })
-
-
-
-
-
-
-
-
-
-
