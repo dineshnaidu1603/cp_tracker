@@ -5,7 +5,6 @@ import matplotlib
 import requests
 from django.contrib.auth import login, logout
 from django.shortcuts import redirect
-
 matplotlib.use('Agg')  # Use non-interactive backend
 import matplotlib.pyplot as plt
 from django.contrib.auth.hashers import make_password
