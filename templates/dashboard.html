@@ -8,89 +8,106 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     
 </head>
-<body>
 
+
+<body>
     <header>
         <div class="logo">vignan cp portal</div>
         <div class="user-menu">
             <span class="username" id="userDropdown">{{ user.username }} ▼</span>
-
             <div class="dropdown" id="dropdownMenu">
                 <ul>
-                    <li><a href="#">My Profile</a></li>
                     <li><a href="#">Dashboard</a></li>
-                    <li><a href="#">Contest Leaderboard</a></li>
                     <li><a href="#">Leaderboard</a></li>
                     <li><a href="#">Settings</a></li>
                     <li><a href="{% url 'logout' %}">Logout</a></li>
                 </ul>
             </div>
         </div>
-        
     </header>
-    <main>
-        <div class="profile-section">
-            <div class="profile-pic"></div>
-            <div class="profile-info">
-                <h2>Welcome, {{ user.username }}</h2>
-                <p>Year: {{ user.year }}</p>
-                <p>Section: {{ user.section }}</p>
 
+    <div class="grid-con">
+        <div class="item1">
+            <main>
+                <div class="profile-section">
+                    <div class="profile-pic"></div>
+                    <div class="profile-info">
+                        <h2>Welcome, {{ user.username }}</h2>
+                        <p>Year: {{ user.year }}</p>
+                        <p>Section: {{ user.section }}</p>
+                        <p>Mail:{{user.email}}</p>
+                        <p>leetcodeid:{{user.leetcode}}</p>
+                        <p>codechefid:{{user.codechef}}</p>
+                        <p>hackerrankid:{{user.hackerrank}}</p>
+                        <p>codeforcesid:{{user.codeforces}}</p>
+                        
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <div class="item2">
+            <div class="text">
+                <h2>LeetCode Profile: {{ request.user.leetcode }}</h2>
+                <p>
+                    <a href="https://leetcode.com/u/{{ request.user.leetcode }}" target="_blank">LeetCode Page</a>
+                </p>
             </div>
         </div>
 
-    </main>
-
-    <div class="text">
-    <h2>LeetCode Profile: {{ request.user.leetcode }}</h2>
-            <p>
-        <a href="https://leetcode.com/u/{{ request.user.leetcode }}" target="_blank">leetcode page</a>
-    </p>
+        <div class="item3">
+            <img src="data:image/png;base64,{{ total_chart_url }}" alt="Total Accepted">
+            <div class="text">
+                <h3>Accepted Submissions per Difficulty</h3>
+            </div>
+            <img src="data:image/png;base64,{{ leetcode_chart }}" alt="LeetCode Chart">
         </div>
 
-    <img src="data:image/png;base64,{{ total_chart_url }}" alt="Total Accepted">
-        <div class="text">
-    <h3>Accepted Submissions per Difficulty</h3>
+        <div class="item4">
+            <div class="text">
+                <h2>CodeChef Profile: {{ request.user.codechef }}</h2>
+                <p><strong>Rating:</strong> {{ user_rating }}</p>
+                <p><strong>Stars:</strong> {{ user_stars }}</p>
+                <p>
+                    <a href="https://www.codechef.com/users/{{ request.user.codechef }}" target="_blank">CodeChef Page</a>
+                </p>
             </div>
-    <img src="data:image/png;base64,{{ leetcode_chart }}" alt="LeetCode Chart">
- <div class="text">
-    <h2>CodeChef Profile: {{ request.user.codechef }}</h2>
+        </div>
 
-    <p><strong>Rating:</strong> {{ user_rating }}</p>
-    <p><strong>Stars:</strong> {{ user_stars }}</p>
-     <p>
-        <a href="https://www.codechef.com/users/{{ request.user.codechef }}" target="_blank">Codechef page</a>
-    </p>
-      </div>
- <div class="text">
-    <h3>Rating Over Time</h3>
-      </div>
-    <img src="data:image/png;base64,{{ rating_chart }}" alt="Rating Chart">
- <div class="text">
-    <h3>Contests Participated Per Year</h3>
- </div>
-    <img src="data:image/png;base64,{{ contest_chart }}" alt="Contest Chart">
+        <div class="item5">
+            <div class="text">
+                <h3>Rating Over Time</h3>
+            </div>
+            <img src="data:image/png;base64,{{ rating_chart }}" alt="Rating Chart">
+        </div>
 
+        <div class="item6">
+            <div class="text">
+                <h3>Contests Participated Per Year</h3>
+            </div>
+            <img src="data:image/png;base64,{{ contest_chart }}" alt="Contest Chart">
+        </div>
+    </div> <!-- Closing grid-con div properly -->
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             let userDropdown = document.getElementById("userDropdown");
             let dropdownMenu = document.getElementById("dropdownMenu");
-    
+
             userDropdown.addEventListener("click", function (event) {
-                event.stopPropagation(); // Prevents immediate closing
+                event.stopPropagation(); 
                 dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
             });
-    
+
             document.addEventListener("click", function () {
-                dropdownMenu.style.display = "none"; // Closes dropdown when clicking outside
+                dropdownMenu.style.display = "none";
             });
-    
+
             dropdownMenu.addEventListener("click", function (event) {
-                event.stopPropagation(); // Keeps dropdown open when clicking inside
+                event.stopPropagation();
             });
         });
     </script>
-
 </body>
+
 </html>
