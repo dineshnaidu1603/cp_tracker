@@ -156,13 +156,17 @@ button:hover {
 }
 
 .form-group {
+    display: flex;
+    flex-direction:row;
     margin-bottom: 1.2rem;
     position: relative;
     color: #f8f9fa;
-    display: flex;
     align-items: center;
     font-size: 20px;
     font-weight: bold;
+}
+.form-group>div{
+    margin:2px;
 }
 
 input[type="email"],

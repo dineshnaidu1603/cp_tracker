@@ -17,16 +17,19 @@
             {% csrf_token %}
 
             <div class="form-group">
-                 <ion-icon name="mail-outline"></ion-icon>
-            <label for="id_username">Email:</label>
-            <input type="email" id="id_username" name="username" required><!-- Change username to email -->
+                <div>
+                 <ion-icon name="mail-outline"></ion-icon></div>
+            <div style="flex-grow:1"><label for="id_username">Email:</label></div>
+           <div > <input type="email" id="id_username" name="username" required></div><!-- Change username to email -->
             </div>
 
             <br>
+            
             <div class="form-group">
-            <ion-icon name="lock-closed-outline"></ion-icon>
-            <label for="id_password">Password:</label>
-            <input type="password" id="id_password" name="password" required>
+                <div>
+            <ion-icon name="lock-closed-outline"></ion-icon></div>
+            <div><label for="id_password">Password:</label></div>
+            <div><input type="password" id="id_password" name="password" required></div>
             </div>
             <br>
 
