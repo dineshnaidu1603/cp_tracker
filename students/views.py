@@ -1,6 +1,6 @@
 import base64
 import io
-
+import numpy as np
 import matplotlib
 import requests
 from django.contrib.auth import login, logout
@@ -86,6 +86,8 @@ def logout_view(request):
     return redirect('login')
 
 
+
+
 @login_required
 def dashboard(request):
     username = request.user.leetcode  # Get LeetCode username from user model
@@ -96,22 +98,36 @@ def dashboard(request):
     headers = {
         "Content-Type": "application/json",
         "x-csrftoken": "YOUR_CSRF_TOKEN",
-        "cookie": "YOUR_COOKIES",
+        "cookie": "YOUR_COOKIES"
     }
+
     query = {
-        "query": f"""
-        {{
-            matchedUser(username: "{username}") {{
-                username
-                submitStats: submitStatsGlobal {{
-                    acSubmissionNum {{
-                        difficulty
-                        count
-                    }}
-                }}
-            }}
-        }}
-        """
+        "query": """
+            query getUserProfile($username: String!) {
+                allQuestionsCount {
+                    difficulty
+                    count
+                }
+                matchedUser(username: $username) {
+                    username
+                    submitStats: submitStatsGlobal {
+                        acSubmissionNum {
+                            difficulty
+                            count
+                        }
+                    }
+                    profile {
+                        ranking
+                    }
+                }
+                userContestRanking(username: $username) {
+                    attendedContestsCount
+                    rating
+                    globalRanking
+                }
+            }
+            """,
+        "variables": {"username": username}
     }
 
     response = requests.post(leetcode_url, json=query, headers=headers)
@@ -123,17 +139,52 @@ def dashboard(request):
         difficulties = [item["difficulty"] for item in ac_submission_data]
         ac_counts = [item["count"] for item in ac_submission_data]
         total_ac = sum(ac_counts)  # Total Accepted Submissions
+        barcounts=ac_counts[1:]
     else:
         difficulties, ac_counts, total_ac = [], [], 0
 
+    # ---- LeetCode: Donut Chart ----
+    plt.figure(figsize=(9, 6))
+    labels = ['Easy', 'Medium', 'Hard']
+    sizes = ac_counts[1:] if len(ac_counts) > 1 else [0, 0, 0]
+    colors = ['#3CB371', '#FFA500', '#DC143C']
+
+    fig, ax = plt.subplots(figsize=(3, 3), facecolor='#F0F0F0')  # Reduced size and made it square
+    wedges, _ = ax.pie(sizes, labels=labels, colors=colors, startangle=90, pctdistance=0.85)
+
+    centre_circle = plt.Circle((0, 0), 0.70, fc='#1E1E1E')
+    fig.gca().add_artist(centre_circle)
+
+    total_solved = sum(sizes)
+    ax.text(0, 0, f'{total_solved}\nSolved', ha='center', va='center', fontsize=12, color='white', fontweight='bold')
+    ax.set_title('LeetCode Question Statistics', fontsize=10, color='#333333')  # Reduced title size
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight')  # Adjusted for better fit
+    buf.seek(0)
+    leetcode_chart = base64.b64encode(buf.getvalue()).decode('utf-8')
+    buf.close()
+    plt.close()
+
+
+    # # ---- LeetCode: Total Submissions Display ----
+    # plt.figure(figsize=(9, 2))
+    # plt.text(0.5, 0.5, f"Total Accepted: {ac_counts[0]}", ha='center', va='center', fontsize=20, fontweight='bold', color='Red')
+    # plt.axis('off')
+    #
+    # buf = io.BytesIO()
+    # plt.savefig(buf, format='png')
+    # buf.seek(0)
+    # total_chart_url = base64.b64encode(buf.getvalue()).decode('utf-8')
+    # buf.close()
+    # plt.close()
+
     # ---- LeetCode: Bar Chart ----
     plt.figure(figsize=(9, 6))
-    bars = plt.bar(difficulties, ac_counts, color=['blue', 'green', 'orange', 'red'])
-
+    bars = plt.bar(difficulties, ac_counts, color=["blue" ,'green', 'orange', 'red'])
     for bar in bars:
         yval = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width() / 2, yval, yval, ha='center', va='bottom', fontsize=12,
-                 fontweight='bold')
+        plt.text(bar.get_x() + bar.get_width() / 2, yval, str(yval), ha='center', va='bottom', fontsize=12, fontweight='bold')
 
     plt.xlabel("Difficulty Level")
     plt.ylabel("Accepted Submissions")
@@ -142,20 +193,7 @@ def dashboard(request):
     buf = io.BytesIO()
     plt.savefig(buf, format='png')
     buf.seek(0)
-    leetcode_chart = base64.b64encode(buf.getvalue()).decode('utf-8')
-    buf.close()
-    plt.close()
-
-    # ---- LeetCode: Total Submissions Display ----
-    plt.figure(figsize=(9, 2))
-    plt.text(0.5, 0.5, f"Total Accepted: {ac_counts[0]}", ha='center', va='center', fontsize=20, fontweight='bold',
-             color='Red')
-    plt.axis('off')
-
-    buf = io.BytesIO()
-    plt.savefig(buf, format='png')
-    buf.seek(0)
-    total_chart_url = base64.b64encode(buf.getvalue()).decode('utf-8')
+    bar_chart_url = base64.b64encode(buf.getvalue()).decode('utf-8')
     buf.close()
     plt.close()
 
@@ -228,7 +266,8 @@ def dashboard(request):
 
     return render(request, "dashboard.html", {
         "leetcode_chart": leetcode_chart,
-        "total_chart_url": total_chart_url,
+        # "total_chart_url": total_chart_url,
+        "bar_chart_url": bar_chart_url,
         "user_rating": user_rating,
         "user_stars": user_stars,
         "rating_chart": rating_chart,

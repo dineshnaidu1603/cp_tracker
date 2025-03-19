@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url("/static/background1.jpg");
+     background-image: url("/static/background1.jpg");
 }
 
 /* Header */
@@ -10,13 +10,14 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #333;
+    background-color: #0a0a0a;
     color: white;
     padding: 15px 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: bold;
 }
 
@@ -26,6 +27,14 @@ header {
 
 .username {
     cursor: pointer;
+    padding: 8px 12px;
+    background-color: rgba(217, 18, 18, 0.1);
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.username:hover {
+    background-color: rgba(65, 13, 13, 0.1);
 }
 
 .dropdown {
@@ -36,8 +45,9 @@ header {
     color: black;
     list-style: none;
     padding: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 10;
 }
 
 .dropdown ul {
@@ -47,8 +57,14 @@ header {
 }
 
 .dropdown ul li {
-    padding: 10px;
+    padding: 10px 15px;
     border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.dropdown ul li:hover {
+    background-color: #f0f0f0;
 }
 
 .dropdown ul li:last-child {
@@ -59,21 +75,22 @@ header {
 main {
     display: flex;
     justify-content: center;
-    padding: 20px;
+    margin: 20px 0;
 }
 
+/* Profile Section */
 .profile-section {
     display: flex;
     background: white;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 60%;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
 }
 
 .profile-pic {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     background: #ddd;
     margin-right: 20px;
@@ -88,24 +105,34 @@ main {
 /* Grid Layout */
 .grid-con {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two columns per row */
+    grid-template-columns: repeat(3, 1fr); /* Three columns per row */
     gap: 10px;
     padding: 10px;
 }
 
-/* Ensuring profile section spans full width */
+/* Item Styling */
 .item1 {
-      grid-row-start: 1;
-  grid-row-end: 6;
-    top :20px;
-    left:10px;
+    grid-row: span 6;
+    width: 100%;
+    padding: 10px;
 }
 
-/* Image Styling */
+.item2,.item8, .item7, .item4, .item5, .item6 {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.item7, .item8 {
+    height: 300px;
+    width: 95%;
+}
+
+/* Adjust Image Size */
 .grid-con img {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
+    align-items: center;
+    width: 90%;
+    height: 300px; /* Adjusted size */
     display: block;
     margin: auto;
     border-radius: 10px;
@@ -114,19 +141,29 @@ main {
 
 /* Hover Effect on Images */
 .grid-con img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
+    .grid-con {
+        grid-template-columns: 1fr;
+    }
+
     .profile-section {
         flex-direction: column;
         align-items: center;
-        width: 80%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .username {
+        padding: 6px 10px;
     }
 
     .grid-con {
-        grid-template-columns: 1fr; /* One column for smaller screens */
+        gap: 15px;
     }
 }
